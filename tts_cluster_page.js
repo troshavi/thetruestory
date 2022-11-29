@@ -1,17 +1,26 @@
-function tts_cluster_page(data){
+(function () {
 
-    var before = document.querySelector('.mg-story-not-found');
-    var parent = before.parentNode;
-    parent.removeChild(before);
+    var url = new URL(window.location.href);
+    var cluster_id = url.searchParams.get("cluster_id");
 
-    let article = document.createElement('article');
-    article.classList.add("mg-story", "news-story", "mg-grid__item");
-    article.id = "thetruestory_body";
-    parent.insertBefore(article, parent.firstChild);
+    var bf = new BackgroundFetch();
+    bf.onreadystatechange = tts_cluster_page;
+    bf.send(`https://thetruestory.news/api/${cluster_id}?limit=1000`);
+
+    function tts_cluster_page(data) {
+
+        var before = document.querySelector('.mg-story-not-found');
+        var parent = before.parentNode;
+        parent.removeChild(before);
+
+        let article = document.createElement('article');
+        article.classList.add("mg-story", "news-story", "mg-grid__item");
+        article.id = "thetruestory_body";
+        parent.insertBefore(article, parent.firstChild);
 
 
-    function createHeadNewsHTML(item){
-        return `
+        function createHeadNewsHTML(item) {
+            return `
         <div class="news-story__head">
             <a href=">${item.cluster_title_source.url}" target="_blank" rel="noopener" class="news-story__subtitle" aria-label="Источник: ${item.cluster_title_source.source.title}">
                 <span class="mg-favorites-dot__indicator mg-favorites-dot__indicator_size_l news-story__subtitle-img">
@@ -28,10 +37,10 @@ function tts_cluster_page(data){
             </a>
         </h1>
         `
-    }
+        }
 
-    function createSnippetNewsItem(item){
-        return`
+        function createSnippetNewsItem(item) {
+            return `
         <div class="mg-snippet mg-snippets-group__item">
             <div class="mg-snippet__bullet"></div>
                 <div class="mg-snippet__wrapper">
@@ -54,57 +63,57 @@ function tts_cluster_page(data){
             </div>
         </div>
         `
-    }
+        }
 
-    function createSnippetWithoutText(item){
-        var source_date = new Date(item.news_newsitem.source_date);
-        return`
-        <div class="mg-snippet mg-snippet_without-text mg-story__snippet">
-            <span class="mg-favorites-dot__indicator mg-favorites-dot__indicator_size_xl mg-snippet__image mg-snippet__image_type_logo" aria-label="Источник: ${item.news_newsitem.source.title}">
-                <div class="mg-favorites-dot__image mg-snippet__src">
-                    <div class="tts_icon_30 tts_icon_${item.news_newsitem.source.slug}"></div>
-                </div>
-            </span>
-            <div class="mg-snippet__wrapper">
-                <div class="mg-snippet__content">
-                    <a href="${item.news_newsitem.url}" target="_blank" rel="noopener" class="mg-snippet__url">
-                        <div class="mg-snippet__title">
-                            ${item.news_newsitem.title}
+        function createSnippetWithoutText(item) {
+            var source_date = new Date(item.news_newsitem.source_date);
+            return `
+                <div class="mg-snippet mg-snippet_without-text mg-story__snippet">
+                    <span class="mg-favorites-dot__indicator mg-favorites-dot__indicator_size_xl mg-snippet__image mg-snippet__image_type_logo" aria-label="Источник: ${item.news_newsitem.source.title}">
+                        <div class="mg-favorites-dot__image mg-snippet__src">
+                            <div class="tts_icon_30 tts_icon_${item.news_newsitem.source.slug}"></div>
                         </div>
-                    </a>
-                    <div class="mg-snippet__agency-info">
-                        <span class="mg-snippet__agency">
-                            <span class="mg-snippet-source-info" role="presentation">
-                                <span class="mg-snippet-source-info__agency-name">
-                                    ${item.news_newsitem.source.title}
+                    </span>
+                    <div class="mg-snippet__wrapper">
+                        <div class="mg-snippet__content">
+                            <a href="${item.news_newsitem.url}" target="_blank" rel="noopener" class="mg-snippet__url">
+                                <div class="mg-snippet__title">
+                                    ${item.news_newsitem.title}
+                                </div>
+                            </a>
+                            <div class="mg-snippet__agency-info">
+                                <span class="mg-snippet__agency">
+                                    <span class="mg-snippet-source-info" role="presentation">
+                                        <span class="mg-snippet-source-info__agency-name">
+                                            ${item.news_newsitem.source.title}
+                                        </span>
+                                        <span class="mg-snippet-source-info__time">
+                                            ${source_date.getHours()}:${source_date.getMinutes()}
+                                        </span>
+                                    </span>
                                 </span>
-                                <span class="mg-snippet-source-info__time">
-                                    ${source_date.getHours()}:${source_date.getMinutes()}
-                                </span>
-                            </span>
-                        </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        `
-    }
+                `
+        }
 
-    function list_by_format(list, func_format){
-        var res = '';
-        list.forEach(item => {
-            res += func_format(item)
-        });
-        return res;
-    }
+        function list_by_format(list, func_format) {
+            var res = '';
+            list.forEach(item => {
+                res += func_format(item)
+            });
+            return res;
+        }
 
-    function createNewsDiv(cluster_rank){
-        var cluster_titles = cluster_rank.cluster.cluster_titles;
-        var cluster_summaries = cluster_rank.cluster.cluster_summaries;
-        var cluster_items = cluster_rank.cluster.cluster_items;
+        function createNewsDiv(cluster_rank) {
+            var cluster_titles = cluster_rank.cluster.cluster_titles;
+            var cluster_summaries = cluster_rank.cluster.cluster_summaries;
+            var cluster_items = cluster_rank.cluster.cluster_items;
 
-        var thetruestory_body = document.getElementById("thetruestory_body");
-        thetruestory_body.innerHTML = `
+            var thetruestory_body = document.getElementById("thetruestory_body");
+            thetruestory_body.innerHTML = `
             ${createHeadNewsHTML(cluster_titles[0])}
 
             <div class="mg-story__body">
@@ -127,11 +136,10 @@ function tts_cluster_page(data){
                 ${list_by_format(cluster_items, createSnippetWithoutText)}
             </div>
         `;
+        }
+
+        cluster_rank = data.content.data.cluster_rank[0];
+        createNewsDiv(cluster_rank);
+
     }
-
-    cluster_rank = data.content.data.cluster_rank[0];
-    console.log(cluster_rank);
-    createNewsDiv(cluster_rank);
-
-    
-}
+})()

@@ -1,33 +1,32 @@
 {
     "manifest_version": 3,
-    "name": "TheTrueStory",
-    "version": "0.1.0",
-    "content_scripts":[
-        {
+    "name": "The True Story для Яндекс Новости",
+    "description": "Добавляет блок новостей с сайта https://thetruestory.news/ru на главную страницу \"Дзен Новости\" (бывш. Яндекс Новости).",
+    "version": "0.1.1",
+    "icons": {
+        "128": "128.png"
+    },
+    "content_scripts": [{
             "run_at": "document_start",
             "matches": ["*://dzen.ru/news*"],
-            "css": ["style.css"]
+            "css": ["css/style.css"],
+            "js": ["backgroundFetch/cs_backgroundFetch.js"]
         },
         {
             "run_at": "document_start",
             "matches": ["*://dzen.ru/news?*"],
             "js": ["tts_main_page.js"]
-        },{
+        }, {
             "run_at": "document_start",
             "matches": ["*://dzen.ru/news/story/thetruestory?*"],
             "js": ["tts_cluster_page.js"],
-            "css": ["icons.css"]
+            "css": ["css/icons.css"]
         }
     ],
-    "permissions": [
-        "webNavigation",
-        "scripting"
-    ],
     "host_permissions": [
-        "https://*/*",
-        "http://*/*"
+        "https://thetruestory.news/*"
     ],
     "background": {
-        "service_worker": "background.js"
+        "service_worker": "backgroundFetch/backgroundFetch.js"
     }
 }
