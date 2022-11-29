@@ -1,0 +1,33 @@
+{
+    "manifest_version": 3,
+    "name": "TheTrueStory",
+    "version": "0.1.0",
+    "content_scripts":[
+        {
+            "run_at": "document_start",
+            "matches": ["*://dzen.ru/news*"],
+            "css": ["style.css"]
+        },
+        {
+            "run_at": "document_start",
+            "matches": ["*://dzen.ru/news?*"],
+            "js": ["tts_main_page.js"]
+        },{
+            "run_at": "document_start",
+            "matches": ["*://dzen.ru/news/story/thetruestory?*"],
+            "js": ["tts_cluster_page.js"],
+            "css": ["icons.css"]
+        }
+    ],
+    "permissions": [
+        "webNavigation",
+        "scripting"
+    ],
+    "host_permissions": [
+        "https://*/*",
+        "http://*/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    }
+}
