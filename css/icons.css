@@ -24,6 +24,12 @@
 .tts_icon_belru{
     background-image: url(https://favicon.yandex.net/favicon/bel.ru?stub=1&size=32);
 }
+.tts_icon_bild{
+    background-image: url(https://avatars.mds.yandex.net/i?id=8e70c580fadfaf476225cb1e06839106-5312564-images-thumbs&n=1);
+}
+.tts_icon_cntxt_europe{
+    background-image: url(https://avatars.mds.yandex.net/i?id=df9f477d5ee6fe21cf14d0f667f640f93b8e276f-4231455-images-thumbs&n=1);
+}
 .tts_icon_currenttime{
     background-image: url(https://favicon.yandex.net/favicon/currenttime.tv?stub=1&size=32);
 }
@@ -116,6 +122,9 @@
 }
 .tts_icon_sibreal{
     background-image: url(https://favicon.yandex.net/favicon/sibreal.org?stub=1&size=32);
+}
+.tts_icon_news_sirena{
+    background-image: url(https://avatars.mds.yandex.net/i?id=20ae702868002346453b41d19da7688b-4615753-images-thumbs&n=1);
 }
 .tts_icon_svoboda{
     background-image: url(https://favicon.yandex.net/favicon/svoboda.org?stub=1&size=32);
