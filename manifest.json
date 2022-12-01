@@ -13,14 +13,15 @@
             "js": ["backgroundFetch/cs_backgroundFetch.js"]
         },
         {
-            "run_at": "document_start",
             "matches": ["*://dzen.ru/news?*"],
             "js": ["tts_main_page.js"]
         }, {
             "run_at": "document_start",
             "matches": ["*://dzen.ru/news/story/thetruestory?*"],
-            "js": ["tts_cluster_page.js"],
             "css": ["css/icons.css"]
+        }, {
+            "matches": ["*://dzen.ru/news/story/thetruestory?*"],
+            "js": ["tts_cluster_page.js"]
         }
     ],
     "host_permissions": [
