@@ -1,7 +1,7 @@
 (function () {
 
     var h1_title = "The True Story";
-    var limit_news = 12;
+    var limit_news = 9;
 
     var bf = new BackgroundFetch();
     bf.onreadystatechange = tts_main_page;
@@ -46,7 +46,12 @@
 
             let aggregates_count = options.aggregates_count || 1;
 
-            let created_at = new Date(options.created_at) || new Date(0);
+            let created_at = (new Date(options.created_at)).toLocaleString('ru-RU', {
+                day: 'numeric',
+                month: 'long',
+                hour: 'numeric',
+                minute: 'numeric',
+            });
 
             let source_name = options.source_name || '';
             let source_logo = options.source_logo || '';
@@ -80,7 +85,7 @@
                         <div class="mg-card-source mg-card__source mg-card__source_dot">
                
                             <span class="mg-card-source__time">
-                            ${created_at.getDate()}.${created_at.getMonth()+1} ${created_at.getHours()}:${created_at.getMinutes()}
+                                ${created_at}
                             </span>
                         </div>
                     </div>
